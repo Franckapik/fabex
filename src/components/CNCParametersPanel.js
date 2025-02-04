@@ -5,33 +5,33 @@ import helpTexts from './helpTexts'; // Import the help texts
 export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
   const handleMouseEnter = (label) => setHelpText(`${label}: ${helpTexts[language][label]}`);
 
-  const params = useControls( 
+  const params = useControls(
     {
+      axis_count: {
+        value: "3-axis",
+        options: ["3-axis", "4-axis", "5-axis"],
+        label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Axis Count")}>Axis Count</span>,
+      },
+      strategy: {
+        value: "Profile (Cutout)",
+        options: [
+          "Profile (Cutout)",
+          "Pocket",
+          "Drill",
+          "Parallel",
+          "Cross",
+          "Block",
+          "Spiral",
+          "Circles",
+          "Outline Fill",
+          "Project Curve to Surface",
+          "Waterline - Roughing (Below Z0)",
+          "Curve to Path",
+          "Medial Axis"
+        ],
+        label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Strategy")}>Strategy</span>,
+      },
       "Operation Setup": folder({
-        axis_count: {
-          value: "3-axis",
-          options: ["3-axis", "4-axis", "5-axis"],
-          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Axis Count")}>Axis Count</span>,
-        },
-        strategy: {
-          value: "Profile (Cutout)",
-          options: [
-            "Profile (Cutout)",
-            "Pocket",
-            "Drill",
-            "Parallel",
-            "Cross",
-            "Block",
-            "Spiral",
-            "Circles",
-            "Outline Fill",
-            "Project Curve to Surface",
-            "Waterline - Roughing (Below Z0)",
-            "Curve to Path",
-            "Medial Axis"
-          ],
-          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Strategy")}>Strategy</span>,
-        },
         geometry_source: {
           value: "",
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Geometry Source")}>Geometry Source</span>,
@@ -42,6 +42,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
         },
         curve_target: {
           value: "",
+          render: (get) => !!get("curve_source"),
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Curve Target")}>Curve Target</span>,
         },
       }),
@@ -258,7 +259,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Enable Mist Cooling")}>Enable Mist Cooling</span>,
         },
       }),
-    }, 
+    },
   );
 
   useEffect(() => {

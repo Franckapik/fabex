@@ -1,0 +1,101 @@
+{
+    "parameters": [
+      {
+        "label": "Type",
+        "variable": "pocket_type",
+        "type": "EnumProperty",
+        "strategies": ["Pocket"]
+      },
+      {
+        "label": "Start Position",
+        "variable": "start_point",
+        "type": "EnumProperty",
+        "strategies": ["Profile (Cutout)", "Pocket"]
+      },
+      {
+        "label": "Skin",
+        "variable": "cutout_skin",
+        "type": "FloatProperty",
+        "strategies": ["Profile (Cutout)", "Pocket", "Parallel", "Cross", "Carve", "Waterline"]
+      },
+      {
+        "label": "Overshoot",
+        "variable": "enable_overshoot",
+        "type": "BoolProperty",
+        "strategies": ["Profile (Cutout)", "Pocket"]
+      },
+      {
+        "label": "Toolpath Distance Between",
+        "variable": "toolpath_spacing",
+        "type": "FloatProperty",
+        "strategies": ["Pocket", "Parallel", "Cross", "Block", "Spiral", "Circles", "Outline Fill", "Waterline"]
+      },
+      {
+        "label": "Holes On",
+        "variable": "drill_hole_position",
+        "type": "EnumProperty",
+        "strategies": ["Drill"]
+      },
+      {
+        "label": "Inverse Milling",
+        "variable": "inverse_milling",
+        "type": "BoolProperty",
+        "strategies": ["Parallel", "Cross", "Block", "Spiral", "Circles", "Outline Fill"]
+      },
+      {
+        "label": "Angle of Paths",
+        "variable": "path_angle",
+        "type": "FloatProperty",
+        "strategies": ["Parallel", "Cross"]
+      },
+      {
+        "label": "Depth",
+        "variable": "carve_depth",
+        "type": "FloatProperty",
+        "strategies": ["Carve"]
+      },
+      {
+        "label": "Slice Detail",
+        "variable": "waterline_slice_detail",
+        "type": "FloatProperty",
+        "strategies": ["Waterline"]
+      },
+      {
+        "label": "Outlines Count",
+        "variable": "outline_count",
+        "type": "IntProperty",
+        "strategies": ["Profile (Cutout)", "Curve to Path"]
+      },
+      {
+        "label": "Don't Merge",
+        "variable": "disable_merge",
+        "type": "BoolProperty",
+        "strategies": ["Profile (Cutout)", "Curve to Path"]
+      },
+      {
+        "label": "Threshold",
+        "variable": "medial_axis_threshold",
+        "type": "FloatProperty",
+        "strategies": ["Medial Axis"]
+      },
+      {
+        "label": "Detail Size",
+        "variable": "medial_axis_detail_size",
+        "type": "FloatProperty",
+        "strategies": ["Medial Axis"]
+      },
+      {
+        "label": "Add Pocket",
+        "variable": "enable_medial_pocket",
+        "type": "BoolProperty",
+        "strategies": ["Medial Axis"]
+      },
+      {
+        "label": "Add Medial Mesh",
+        "variable": "enable_medial_mesh",
+        "type": "BoolProperty",
+        "strategies": ["Medial Axis"]
+      }
+    ]
+  }
+  
