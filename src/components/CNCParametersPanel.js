@@ -1,50 +1,149 @@
 import { useControls, folder, Leva } from "leva";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import helpTexts from './helpTexts'; // Import the help texts
 
+const strategyParameters = [
+  {
+    label: "Type",
+    variable: "pocket_type",
+    type: "EnumProperty",
+    strategies: ["Pocket"]
+  },
+  {
+    label: "Start Position",
+    variable: "start_point",
+    type: "EnumProperty",
+    strategies: ["Profile (Cutout)", "Pocket"]
+  },
+  {
+    label: "Skin",
+    variable: "cutout_skin",
+    type: "FloatProperty",
+    strategies: ["Profile (Cutout)", "Pocket", "Parallel", "Cross", "Carve", "Waterline"]
+  },
+  {
+    label: "Overshoot",
+    variable: "enable_overshoot",
+    type: "BoolProperty",
+    strategies: ["Profile (Cutout)", "Pocket"]
+  },
+  {
+    label: "Toolpath Distance Between",
+    variable: "toolpath_spacing",
+    type: "FloatProperty",
+    strategies: ["Pocket", "Parallel", "Cross", "Block", "Spiral", "Circles", "Outline Fill", "Waterline"]
+  },
+  {
+    label: "Holes On",
+    variable: "drill_hole_position",
+    type: "EnumProperty",
+    strategies: ["Drill"]
+  },
+  {
+    label: "Inverse Milling",
+    variable: "inverse_milling",
+    type: "BoolProperty",
+    strategies: ["Parallel", "Cross", "Block", "Spiral", "Circles", "Outline Fill"]
+  },
+  {
+    label: "Angle of Paths",
+    variable: "path_angle",
+    type: "FloatProperty",
+    strategies: ["Parallel", "Cross"]
+  },
+  {
+    label: "Depth",
+    variable: "carve_depth",
+    type: "FloatProperty",
+    strategies: ["Carve"]
+  },
+  {
+    label: "Slice Detail",
+    variable: "waterline_slice_detail",
+    type: "FloatProperty",
+    strategies: ["Waterline"]
+  },
+  {
+    label: "Outlines Count",
+    variable: "outline_count",
+    type: "IntProperty",
+    strategies: ["Profile (Cutout)", "Curve to Path"]
+  },
+  {
+    label: "Don't Merge",
+    variable: "disable_merge",
+    type: "BoolProperty",
+    strategies: ["Profile (Cutout)", "Curve to Path"]
+  },
+  {
+    label: "Threshold",
+    variable: "medial_axis_threshold",
+    type: "FloatProperty",
+    strategies: ["Medial Axis"]
+  },
+  {
+    label: "Detail Size",
+    variable: "medial_axis_detail_size",
+    type: "FloatProperty",
+    strategies: ["Medial Axis"]
+  },
+  {
+    label: "Add Pocket",
+    variable: "enable_medial_pocket",
+    type: "BoolProperty",
+    strategies: ["Medial Axis"]
+  },
+  {
+    label: "Add Medial Mesh",
+    variable: "enable_medial_mesh",
+    type: "BoolProperty",
+    strategies: ["Medial Axis"]
+  }
+];
+
 export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
+  const [dynamicOptions, setDynamicOptions] = useState({
+    axis_count: ["3-axis", "4-axis", "5-axis"],
+    strategy: [
+      "Profile (Cutout)",
+      "Pocket",
+      "Drill",
+      "Parallel",
+      "Cross",
+      "Block",
+      "Spiral",
+      "Circles",
+      "Outline Fill",
+      "Project Curve to Surface",
+      "Waterline - Roughing (Below Z0)",
+      "Curve to Path",
+      "Medial Axis"
+    ]
+  });
+
   const handleMouseEnter = (label) => setHelpText(`${label}: ${helpTexts[language][label]}`);
 
   const params = useControls(
     {
       axis_count: {
         value: "3-axis",
-        options: ["3-axis", "4-axis", "5-axis"],
+        options: dynamicOptions.axis_count,
         label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Axis Count")}>Axis Count</span>,
       },
       strategy: {
         value: "Profile (Cutout)",
-        options: [
-          "Profile (Cutout)",
-          "Pocket",
-          "Drill",
-          "Parallel",
-          "Cross",
-          "Block",
-          "Spiral",
-          "Circles",
-          "Outline Fill",
-          "Project Curve to Surface",
-          "Waterline - Roughing (Below Z0)",
-          "Curve to Path",
-          "Medial Axis"
-        ],
+        options: dynamicOptions.strategy,
         label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Strategy")}>Strategy</span>,
       },
       "Operation Setup": folder({
-        geometry_source: {
-          value: "",
-          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Geometry Source")}>Geometry Source</span>,
-        },
-        curve_source: {
-          value: "",
-          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Curve Source")}>Curve Source</span>,
-        },
-        curve_target: {
-          value: "",
-          render: (get) => !!get("curve_source"),
-          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Curve Target")}>Curve Target</span>,
-        },
+        ...strategyParameters.reduce((acc, param) => {
+          acc[param.variable] = {
+            value: param.type === "BoolProperty" ? false : param.type === "FloatProperty" ? 0 : "",
+            label: <span className="leva__label" onMouseEnter={() => handleMouseEnter(param.label)}>{param.label}</span>,
+            render: (get) => param.strategies.includes(get("strategy"))
+          };
+          return acc;
+        }, {})
       }),
       "A & B Axes": folder({
         rotation_a: {
@@ -260,6 +359,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
         },
       }),
     },
+    [dynamicOptions] // Dependency array to refresh the input schema
   );
 
   useEffect(() => {
