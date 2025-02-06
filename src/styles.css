@@ -16,7 +16,9 @@ body {
 .sidebar {
   width: 30%; /* 30% width for the sidebar */
   height: 100vh; /* Full height of the viewport */
-  overflow-y: auto; /* Enable vertical scrolling */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space between parameters panel and help text */
 }
 
 /* Custom scrollbar styles */
@@ -35,6 +37,11 @@ body {
 
 .sidebar::-webkit-scrollbar-thumb:hover {
   background: #888; /* Slightly lighter on hover */
+}
+
+.parameters-panel {
+  flex: 1; /* Take remaining space */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .main-content {
@@ -65,8 +72,167 @@ body {
   padding-top: 15px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10000; /* Ensure it is above other elements */
+  width: 100%;
+  position: relative;
+  bottom: 0;
+}
+
+.mode-menu {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  display: flex;
+  gap: 40px;
+  z-index: 1005;
+  padding: 20px 40px 20px 40px;
+  border: 2px dashed white; /* Add dashed border */
+  border-radius: 10px; /* Rounded corners */
+  background-color: rgba(30, 30, 30, 0.8); /* Semi-transparent background */
+}
+
+.mode-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.mode-icon {
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  color: white; /* Make icons white */
+}
+
+.mode-icon.active,
+.mode-icon:hover {
+  opacity: 1;
+}
+
+.mode-label {
+  font-size: 12px;
+  color: white;
+  margin-top: 5px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #1E1E1E;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.modal-content button:hover {
+  background-color: #555;
+}
+
+.operations-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+  justify-items: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+}
+
+.operation-button {
+  width: 100px; /* Set width to make the button square */
+  height: 100px; /* Set height to make the button square */
+  background-color: white !important; /* White background */
+  color: black!important; /* Black text */
+  border: 2px solid black !important; /* Black border */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.operation-button:hover {
+  background-color: #a8a1a1!important; /* Slightly darker background on hover */
+}
+
+.instructions-placeholder {
+  height: 100px; /* Adjust height as needed */
+  background-color: #1E1E1E;
+  color: white;
+  padding-top: 15px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   position: relative;
   bottom: 0;
   width: 100%;
+}
+
+.instructions-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  cursor: grab;
+}
+
+.instructions-panel h3 {
+  margin-top: 0;
+}
+
+.instructions-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.instructions-buttons button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #1E1E1E;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.instructions-buttons button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
+
+.instructions-buttons button:hover:not(:disabled) {
+  background-color: #555;
 }
