@@ -1,4 +1,4 @@
-import { useControls, folder, Leva } from "leva";
+import { useControls, folder, Leva, button } from "leva"; // Import button
 import { useEffect, useState } from "react";
 import helpTexts from './helpTexts'; // Import the help texts
 
@@ -144,6 +144,31 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           };
           return acc;
         }, {})
+      }),
+      Material: folder({
+        z_placement: {
+          value: "Below",
+          options: ["Below", "Above", "Centered"],
+          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Z Placement")}>Z Placement</span>,
+        },
+        x_position: {
+          value: 0,
+          min: -10,
+          max: 10,
+          step: 0.1,
+          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("X Position")}>X Position</span>,
+        },
+        y_position: {
+          value: 0,
+          min: -10,
+          max: 10,
+          step: 0.1,
+          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Y Position")}>Y Position</span>,
+        },
+/*         position_object: button(() => {
+          // Add your positioning logic here
+          console.log("Position Object button clicked");
+        }), */
       }),
       "A & B Axes": folder({
         rotation_a: {
@@ -358,6 +383,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Enable Mist Cooling")}>Enable Mist Cooling</span>,
         },
       }),
+      
     },
     [dynamicOptions] // Dependency array to refresh the input schema
   );
