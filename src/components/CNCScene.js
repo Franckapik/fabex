@@ -37,7 +37,7 @@ export function CNCScene({ depth, params }) {
     if (boxRef.current) {
       console.log("Updating box position:", params.x_position, params.y_position);
       boxRef.current.position.x = params.x_position;
-      boxRef.current.position.y = params.y_position;
+      boxRef.current.position.z = params.y_position;
 
       // Update the cube's position based on z_placement
       const height = boxRef.current.geometry.parameters.height;

@@ -7,13 +7,22 @@ const strategyParameters = [
     label: "Type",
     variable: "pocket_type",
     type: "EnumProperty",
+    options: ["Option1", "Option2"], // Add options
     strategies: ["Pocket"]
   },
   {
-    label: "Start Position",
+    label: "Start Point",
     variable: "start_point",
     type: "EnumProperty",
+    options: ["Option1", "Option2"], // Add options
     strategies: ["Profile (Cutout)", "Pocket"]
+  },
+  {
+    label: "Cut",
+    variable: "cut",
+    type: "EnumProperty",
+    options: ["Outside", "Inside", "On Line"],
+    strategies: ["Profile (Cutout)"]
   },
   {
     label: "Skin",
@@ -37,6 +46,7 @@ const strategyParameters = [
     label: "Holes On",
     variable: "drill_hole_position",
     type: "EnumProperty",
+    options: ["Option1", "Option2"], // Add options
     strategies: ["Drill"]
   },
   {
@@ -138,7 +148,8 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
       "Operation Setup": folder({
         ...strategyParameters.reduce((acc, param) => {
           acc[param.variable] = {
-            value: param.type === "BoolProperty" ? false : param.type === "FloatProperty" ? 0 : "",
+            value: param.type === "BoolProperty" ? false : param.type === "FloatProperty" ? 0 : param.type === "EnumProperty" ? param.options[0] : "",
+            options: param.options,
             label: <span className="leva__label" onMouseEnter={() => handleMouseEnter(param.label)}>{param.label}</span>,
             render: (get) => param.strategies.includes(get("strategy"))
           };
