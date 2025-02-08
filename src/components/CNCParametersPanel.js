@@ -157,29 +157,25 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
         }, {})
       }),
       Material: folder({
-        z_placement: {
+        y_up_position: {
           value: "Below",
           options: ["Below", "Above", "Centered"],
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Z Placement")}>Z Placement</span>,
         },
         x_position: {
-          value: 0,
+          value: 2, // Default value equivalent to position x
           min: -10,
           max: 10,
           step: 0.1,
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("X Position")}>X Position</span>,
         },
-        y_position: {
-          value: 0,
+        z_position: {
+          value: -2, // Default value equivalent to position z
           min: -10,
           max: 10,
           step: 0.1,
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Y Position")}>Y Position</span>,
         },
-/*         position_object: button(() => {
-          // Add your positioning logic here
-          console.log("Position Object button clicked");
-        }), */
       }),
       "A & B Axes": folder({
         rotation_a: {

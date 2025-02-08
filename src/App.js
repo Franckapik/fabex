@@ -39,6 +39,8 @@ function App() {
       setShowStepModal(true); // Show Step by Step modal when mode is selected
     } else if (newMode === "Game") {
       setShowGameModal(true); // Show Game modal when mode is selected
+    } else if (newMode === "Free") {
+      setInstructions([]); // Clear instructions when Free mode is selected
     }
   };
 
@@ -116,24 +118,36 @@ function App() {
     <div className="main-container">
       <div className="main-content">
         <div className="scene">
-          <img src="/logo_fabex.svg" alt="Logo" className="logo" />
-          <div className="mode-menu">
-            <div className="mode-item" onClick={() => handleModeChange("Free")} onMouseEnter={() => handleMouseEnter("Free Mode", "Test without constraints")} onMouseLeave={handleMouseLeave}>
-              <FontAwesomeIcon icon={faRocket} className={`mode-icon ${mode === "Free" ? "active" : ""}`} />
-              <span className="mode-label">Free</span>
-            </div>
-            <div className="mode-item" onClick={() => handleModeChange("Step by Step")} onMouseEnter={() => handleMouseEnter("Step by Step Mode", "Guided learning")} onMouseLeave={handleMouseLeave}>
-              <FontAwesomeIcon icon={faStepForward} className={`mode-icon ${mode === "Step by Step" ? "active" : ""}`} />
-              <span className="mode-label">Step by Step</span>
-            </div>
-            <div className="mode-item" onClick={() => handleModeChange("Game")} onMouseEnter={() => handleMouseEnter("Game Mode", "Learn through challenges")} onMouseLeave={handleMouseLeave}>
-              <FontAwesomeIcon icon={faGamepad} className={`mode-icon ${mode === "Game" ? "active" : ""}`} />
-              <span className="mode-label">Game</span>
+          <div className="logo-mode-wrapper">
+            <img src="/logo_fabex.svg" alt="Logo" className="logo" />
+            <div className="mode-menu">
+              <div className="mode-item" onClick={() => handleModeChange("Free")} onMouseEnter={() => handleMouseEnter("Free Mode", "Test without constraints")} onMouseLeave={handleMouseLeave}>
+                <FontAwesomeIcon icon={faRocket} className={`mode-icon ${mode === "Free" ? "active" : ""}`} />
+                <span className="mode-label">Free</span>
+              </div>
+              <div className="mode-item" onClick={() => handleModeChange("Step by Step")} onMouseEnter={() => handleMouseEnter("Step by Step Mode", "Guided learning")} onMouseLeave={handleMouseLeave}>
+                <FontAwesomeIcon icon={faStepForward} className={`mode-icon ${mode === "Step by Step" ? "active" : ""}`} />
+                <span className="mode-label">Step by Step</span>
+              </div>
+              <div className="mode-item" onClick={() => handleModeChange("Game")} onMouseEnter={() => handleMouseEnter("Game Mode", "Learn through challenges")} onMouseLeave={handleMouseLeave}>
+                <FontAwesomeIcon icon={faGamepad} className={`mode-icon ${mode === "Game" ? "active" : ""}`} />
+                <span className="mode-label">Game</span>
+              </div>
             </div>
           </div>
+          <div className="objective-wrapper" style={{ backgroundColor: "red" }}></div> {/* New div for objectives */}
           <CNCScene depth={depth} params={params} />
+          {instructions.length > 0 && (
+            <div className="instructions-panel">
+              <h3>Instructions</h3>
+              <p>{instructions[currentStep]}</p>
+              <div className="instructions-buttons">
+                <button onClick={handlePreviousStep} disabled={currentStep === 0}>Previous</button>
+                <button onClick={handleNextStep} disabled={currentStep === instructions.length - 1}>Next</button>
+              </div>
+            </div>
+          )}
         </div>
-        <div className="instructions-placeholder"></div> {/* Placeholder for instructions modal */}
       </div>
       <div className="sidebar">
         <div className="parameters-panel">
@@ -179,16 +193,6 @@ function App() {
               <button className="operation-button" onClick={() => handleOperationSelect("Parallel")}>Parallel</button>
             </div>
             <button onClick={() => setShowGameModal(false)}>Close</button>
-          </div>
-        </div>
-      )}
-      {instructions.length > 0 && (
-        <div className="instructions-panel">
-          <h3>Instructions</h3>
-          <p>{instructions[currentStep]}</p>
-          <div className="instructions-buttons">
-            <button onClick={handlePreviousStep} disabled={currentStep === 0}>Previous</button>
-            <button onClick={handleNextStep} disabled={currentStep === instructions.length - 1}>Next</button>
           </div>
         </div>
       )}
