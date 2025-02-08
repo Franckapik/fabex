@@ -9,16 +9,19 @@ body {
 
 .main-container {
   display: flex;
+  flex-direction: row-reverse; /* Change the direction to row-reverse */
   width: 100vw; /* Ensure the container takes the full width of the viewport */
   height: 100%;
 }
 
 .sidebar {
-  width: 30%; /* 30% width for the sidebar */
+  width: 400px; /* 30% width for the sidebar */
   height: 100vh; /* Full height of the viewport */
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* Space between parameters panel and help text */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #2c2c2c #1e1e1e; /* Thumb and track color */
 }
 
 /* Custom scrollbar styles */
@@ -27,16 +30,16 @@ body {
 }
 
 .sidebar::-webkit-scrollbar-track {
-  background: #1E1E1E; /* Dark background for the track */
+  background: #1e1e1e; /* Dark background for the track */
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-  background: #555; /* Darker thumb */
+  background: #2c2c2c; /* Darker thumb */
   border-radius: 4px;
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-  background: #888; /* Slightly lighter on hover */
+  background: #3c3c3c; /* Slightly lighter on hover */
 }
 
 .parameters-panel {
@@ -106,6 +109,8 @@ body {
 .logo {
   width: 275px;
   height: auto;
+  margin: 40px auto;
+  display: block;
   z-index: 1001;
 }
 

@@ -131,6 +131,8 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
     ]
   });
 
+  const [layers, setLayers] = useState(false);
+
   const handleMouseEnter = (label) => setHelpText(`${label}: ${helpTexts[language][label]}`);
 
   const params = useControls(
@@ -155,28 +157,15 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           };
           return acc;
         }, {})
-      }),
+      }, { collapsed: true }),
       Material: folder({
         y_up_position: {
           value: "Below",
           options: ["Below", "Above", "Centered"],
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Z Placement")}>Z Placement</span>,
         },
-        x_position: {
-          value: 2, // Default value equivalent to position x
-          min: -10,
-          max: 10,
-          step: 0.1,
-          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("X Position")}>X Position</span>,
-        },
-        z_position: {
-          value: -2, // Default value equivalent to position z
-          min: -10,
-          max: 10,
-          step: 0.1,
-          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Y Position")}>Y Position</span>,
-        },
-      }),
+        // Removed x_position and z_position parameters
+      }, { collapsed: true }),
       "A & B Axes": folder({
         rotation_a: {
           value: 0,
@@ -192,7 +181,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           step: 1,
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("B Axis Rotation")}>B Axis Rotation</span>,
         },
-      }),
+      }, { collapsed: true }),
       Array: folder({
         x_count: {
           value: 1,
@@ -222,7 +211,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           step: 1,
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Y Distance (mm)")}>Y Distance (mm)</span>,
         },
-      }),
+      }, { collapsed: true }),
       "Bridges (Tabs)": folder({
         bridges_width: {
           value: 2,
@@ -242,7 +231,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           value: false,
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Use Modifiers")}>Use Modifiers</span>,
         },
-      }),
+      }, { collapsed: true }),
       "Operation Area": folder({
         operation_depth_start: {
           value: 0,
@@ -262,7 +251,20 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           value: false,
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("First Down")}>First Down</span>,
         },
-      }),
+        layers: {
+          value: false,
+          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Layers")}>Layers</span>,
+          onChange: (value) => setLayers(value),
+        },
+        layer_height: {
+          value: 1,
+          min: 0.1,
+          max: 10,
+          step: 0.1,
+          label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Layer Height (mm)")}>Layer Height (mm)</span>,
+          render: () => (layers),
+        },
+      }, { collapsed: true }),
       Cutter: folder({
         cutter_type: {
           value: "End",
@@ -291,7 +293,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Tool Number")}>Tool Number</span>,
         },
         cutter_description: { value: "", label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Description")}>Description</span> },
-      }),
+      }, { collapsed: true }),
       Feedrate: folder({
         feedrate: {
           value: 1000,
@@ -321,7 +323,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           step: 1,
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Plunge Angle (°)")}>Plunge Angle (°)</span>,
         },
-      }),
+      }, { collapsed: true }),
       Movement: folder({
         milling_type: {
           value: "Climb (Down)",
@@ -344,7 +346,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           step: 1,
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Angle Limit (°)")}>Angle Limit (°)</span>,
         },
-      }),
+      }, { collapsed: true }),
       Optimisation: folder({
         detail_size: {
           value: 0.1,
@@ -371,7 +373,7 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           step: 0.01,
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Threshold (μm)")}>Threshold (μm)</span>,
         },
-      }),
+      }, { collapsed: true }),
       "G-Code": folder({
         output_header: {
           value: false,
@@ -389,10 +391,9 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
           value: false,
           label: <span className="leva__label" onMouseEnter={() => handleMouseEnter("Enable Mist Cooling")}>Enable Mist Cooling</span>,
         },
-      }),
-      
+      }, { collapsed: true }),
     },
-    [dynamicOptions] // Dependency array to refresh the input schema
+    [dynamicOptions, layers] // Dependency array to refresh the input schema
   );
 
   useEffect(() => {
@@ -401,7 +402,9 @@ export function CNCParametersPanel({ onUpdate, setHelpText, language }) {
 
   return (
     <div>
-      <Leva oneLineLabels fill />
+ <img src="logo_fabex.svg" alt="Logo" className="logo" />
+
+      <Leva oneLineLabels fill titleBar={{drag: false}} />
     </div>
   );
 }

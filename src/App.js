@@ -119,7 +119,6 @@ function App() {
       <div className="main-content">
         <div className="scene">
           <div className="logo-mode-wrapper">
-            <img src="/logo_fabex.svg" alt="Logo" className="logo" />
             <div className="mode-menu">
               <div className="mode-item" onClick={() => handleModeChange("Free")} onMouseEnter={() => handleMouseEnter("Free Mode", "Test without constraints")} onMouseLeave={handleMouseLeave}>
                 <FontAwesomeIcon icon={faRocket} className={`mode-icon ${mode === "Free" ? "active" : ""}`} />
@@ -135,7 +134,9 @@ function App() {
               </div>
             </div>
           </div>
-          <div className="objective-wrapper" style={{ backgroundColor: "red" }}></div> {/* New div for objectives */}
+          {mode !== "Free" && (
+            <div className="objective-wrapper" style={{ backgroundColor: "red" }}></div>
+          )}
           <CNCScene depth={depth} params={params} />
           {instructions.length > 0 && (
             <div className="instructions-panel">
